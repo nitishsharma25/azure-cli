@@ -183,9 +183,14 @@ examples:
         --backup-key $backupKeyIdentifier --backup-identity testBackupIdentity
 """
 
+helps['mysql flexible-server import'] = """
+type: group
+short-summary: Manage Single to Flex migration.
+"""
+
 helps['mysql flexible-server import create'] = """
 type: command
-short-summary: Create a MySQL flexible server.
+short-summary: Create a MySQL flexible server from the single server resource id.
 long-summary: >
     Create a MySQL flexible server with custom or default configuration. For more information for network configuration, see
 
