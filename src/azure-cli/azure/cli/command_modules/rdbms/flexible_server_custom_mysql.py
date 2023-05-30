@@ -180,6 +180,154 @@ def flexible_server_create(cmd, client,
                           _create_mysql_connection_string(host, database_name, user, administrator_login_password),
                           database_name, firewall_name, subnet_id)
 
+# flexible server import commands
+def flexible_server_import_create(cmd, client,
+                           data_source_type=None, data_source=None, mode=None,
+                           resource_group_name=None, server_name=None,
+                           location=None, backup_retention=None,
+                           sku_name=None, tier=None,
+                           storage_gb=None, administrator_login=None,
+                           administrator_login_password=None, version=None,
+                           tags=None, database_name=None,
+                           subnet=None, subnet_address_prefix=None, vnet=None, vnet_address_prefix=None,
+                           private_dns_zone_arguments=None, public_access=None,
+                           high_availability=None, zone=None, standby_availability_zone=None,
+                           iops=None, auto_grow=None, auto_scale_iops=None, geo_redundant_backup=None,
+                           byok_identity=None, backup_byok_identity=None, byok_key=None, backup_byok_key=None,
+                           yes=False):
+    # Generate missing parameters
+    location, resource_group_name, server_name = generate_missing_parameters(cmd, location, resource_group_name,
+                                                                             server_name, 'mysql')
+    db_context = DbContext(
+        cmd=cmd, cf_firewall=cf_mysql_flexible_firewall_rules, cf_db=cf_mysql_flexible_db,
+        cf_availability=cf_mysql_check_resource_availability,
+        cf_availability_without_location=cf_mysql_check_resource_availability_without_location,
+        cf_private_dns_zone_suffix=cf_mysql_flexible_private_dns_zone_suffix_operations,
+        logging_name='MySQL', command_group='mysql', server_client=client, location=location)
+
+    # Process parameters
+    server_name = server_name.lower()
+
+    # MySQL chnged MemoryOptimized tier to BusinessCritical (only in client tool not in list-skus return)
+    if tier == 'BusinessCritical':
+        tier = 'MemoryOptimized'
+    mysql_arguments_validator(db_context,
+                              data_source_type=data_source_type,
+                              data_source=data_source,
+                              mode=mode,
+                              server_name=server_name,
+                              location=location,
+                              tier=tier,
+                              sku_name=sku_name,
+                              storage_gb=storage_gb,
+                              backup_retention=backup_retention,
+                              high_availability=high_availability,
+                              standby_availability_zone=standby_availability_zone,
+                              zone=zone,
+                              subnet=subnet,
+                              public_access=public_access,
+                              auto_grow=auto_grow,
+                              version=version,
+                              geo_redundant_backup=geo_redundant_backup,
+                              byok_identity=byok_identity,
+                              backup_byok_identity=backup_byok_identity,
+                              byok_key=byok_key,
+                              backup_byok_key=backup_byok_key,
+                              auto_io_scaling=auto_scale_iops,
+                              iops=iops)
+    list_skus_info = get_mysql_list_skus_info(db_context.cmd, location)
+    iops_info = list_skus_info['iops_info']
+
+    server_result = firewall_name = None
+
+    network, start_ip, end_ip = flexible_server_provision_network_resource(cmd=cmd,
+                                                                           resource_group_name=resource_group_name,
+                                                                           server_name=server_name,
+                                                                           location=location,
+                                                                           db_context=db_context,
+                                                                           private_dns_zone_arguments=private_dns_zone_arguments,
+                                                                           public_access=public_access,
+                                                                           vnet=vnet,
+                                                                           subnet=subnet,
+                                                                           vnet_address_prefix=vnet_address_prefix,
+                                                                           subnet_address_prefix=subnet_address_prefix,
+                                                                           yes=yes)
+
+    # determine IOPS
+    iops = _determine_iops(storage_gb=storage_gb,
+                           iops_info=iops_info,
+                           iops_input=iops,
+                           tier=tier,
+                           sku_name=sku_name)
+
+    storage = mysql_flexibleservers.models.Storage(storage_size_gb=storage_gb,
+                                                   iops=iops,
+                                                   auto_grow=auto_grow,
+                                                   auto_io_scaling=auto_scale_iops)
+
+    backup = mysql_flexibleservers.models.Backup(backup_retention_days=backup_retention,
+                                                 geo_redundant_backup=geo_redundant_backup)
+
+    sku = mysql_flexibleservers.models.Sku(name=sku_name, tier=tier)
+
+    high_availability = mysql_flexibleservers.models.HighAvailability(mode=high_availability,
+                                                                      standby_availability_zone=standby_availability_zone)
+
+    administrator_login_password = generate_password(administrator_login_password)
+
+    identity, data_encryption = build_identity_and_data_encryption(db_engine='mysql',
+                                                                   byok_identity=byok_identity,
+                                                                   backup_byok_identity=backup_byok_identity,
+                                                                   byok_key=byok_key,
+                                                                   backup_byok_key=backup_byok_key)
+
+    # Create mysql server
+    # Note : passing public_access has no effect as the accepted values are 'Enabled' and 'Disabled'. So the value ends up being ignored.
+    server_result = _create_server(db_context, cmd, resource_group_name, server_name,
+                                   data_source_type=data_source_type, data_source=data_source, mode=mode,
+                                   tags=tags,
+                                   location=location,
+                                   identity=identity,
+                                   sku=sku,
+                                   administrator_login=administrator_login,
+                                   administrator_login_password=administrator_login_password,
+                                   storage=storage,
+                                   backup=backup,
+                                   network=network,
+                                   version=version,
+                                   high_availability=high_availability,
+                                   availability_zone=zone,
+                                   data_encryption=data_encryption)
+
+    # Adding firewall rule
+    if start_ip != -1 and end_ip != -1:
+        firewall_name = create_firewall_rule(db_context, cmd, resource_group_name, server_name, start_ip, end_ip)
+
+    # Create mysql database if it does not exist
+    if database_name is None:
+        database_name = DEFAULT_DB_NAME
+    _create_database(db_context, cmd, resource_group_name, server_name, database_name)
+
+    user = server_result.administrator_login
+    server_id = server_result.id
+    loc = server_result.location
+    version = server_result.version
+    sku = server_result.sku.name
+    host = server_result.fully_qualified_domain_name
+    subnet_id = network.delegated_subnet_resource_id
+
+    logger.warning('Make a note of your password. If you forget, you would have to reset your password with'
+                   '\'az mysql flexible-server update -n %s -g %s -p <new-password>\'.',
+                   server_name, resource_group_name)
+    logger.warning('Try using az \'mysql flexible-server connect\' command to test out connection.')
+
+    _update_local_contexts(cmd, server_name, resource_group_name, location, user)
+
+    return _form_response(user, sku, loc, server_id, host, version,
+                          administrator_login_password if administrator_login_password is not None else '*****',
+                          _create_mysql_connection_string(host, database_name, user, administrator_login_password),
+                          database_name, firewall_name, subnet_id)
+
 
 def flexible_server_restore(cmd, client,
                             resource_group_name, server_name,
@@ -813,6 +961,36 @@ def flexible_list_skus(cmd, client, location):
     result = replace_memory_optimized_tier(result)
     logger.warning('For prices please refer to https://aka.ms/mysql-pricing')
     return result
+
+def _create_server(db_context, cmd, data_source_type, data_source, mode, resource_group_name, server_name, tags, location, sku, administrator_login, administrator_login_password,
+                   storage, backup, network, version, high_availability, availability_zone, identity, data_encryption):
+    logging_name, server_client = db_context.logging_name, db_context.server_client
+    logger.warning('Creating %s Server \'%s\' in group \'%s\'...', logging_name, server_name, resource_group_name)
+
+    logger.warning('Your server \'%s\' is using sku \'%s\' (Paid Tier). '
+                   'Please refer to https://aka.ms/mysql-pricing for pricing details', server_name, sku.name)
+    # Note : passing public-network-access has no effect as the accepted values are 'Enabled' and 'Disabled'.
+    # So when you pass an IP here(from the CLI args of public_access), it ends up being ignored.
+    parameters = mysql_flexibleservers.models.Server(
+        tags=tags,
+        location=location,
+        identity=identity,
+        sku=sku,
+        administrator_login=administrator_login,
+        administrator_login_password=administrator_login_password,
+        storage=storage,
+        backup=backup,
+        network=network,
+        version=version,
+        high_availability=high_availability,
+        availability_zone=availability_zone,
+        data_encryption=data_encryption,
+        source_server_resource_id=data_source,
+        create_mode="Migrate")
+
+    return resolve_poller(
+        server_client.begin_create(resource_group_name, server_name, parameters), cmd.cli_ctx,
+        '{} Server Create'.format(logging_name))
 
 
 def _create_server(db_context, cmd, resource_group_name, server_name, tags, location, sku, administrator_login, administrator_login_password,

@@ -96,7 +96,7 @@ def load_arguments(self, _):    # pylint: disable=too-many-statements, too-many-
                            help='Server major version. https://docs.microsoft.com/en-us/azure/postgresql/single-server/concepts-supported-versions')
             else:
                 c.argument('version', help='Server major version.')
-
+            
         with self.argument_context('{} server update'.format(command_group)) as c:
             c.ignore('family', 'capacity', 'tier')
             c.argument('sku_name', options_list=['--sku-name'], help='The name of the sku. Follows the convention {pricing tier}_{compute generation}_{vCores} in shorthand. Examples: B_Gen5_1, GP_Gen5_4, MO_Gen5_16.')
@@ -480,6 +480,24 @@ def load_arguments(self, _):    # pylint: disable=too-many-statements, too-many-
                  'A GTID is represented as a pair of coordinates, separated by a colon character (:), as shown: source_id:transaction_id'
         )
 
+        data_source_type_arg_type = CLIArgumentType(
+            # options_list=['']
+            # # arg_type=
+            # # help=
+        )
+
+        data_source_arg_type = CLIArgumentType(
+            # options_list=[],
+            # arg_type=
+            # help=
+        )
+
+        mode_arg_type = CLIArgumentType(
+            # options_list=[],
+            # arg_type=
+            # help
+        )
+
         with self.argument_context('{} flexible-server'.format(command_group)) as c:
             c.argument('resource_group_name', arg_type=resource_group_name_type)
             c.argument('server_name', arg_type=server_name_arg_type)
@@ -523,6 +541,39 @@ def load_arguments(self, _):    # pylint: disable=too-many-statements, too-many-
             c.argument('standby_availability_zone', arg_type=standby_availability_zone_arg_type)
             c.argument('database_name', arg_type=database_name_arg_type)
             c.argument('yes', arg_type=yes_arg_type)
+        
+        with self.argument_context('{} flexible-server import create'.format(command_group)) as c:
+            c.argument('tier', default='Burstable', arg_type=tier_arg_type)
+            c.argument('sku_name', default='Standard_B1ms', arg_type=sku_name_arg_type)
+            c.argument('storage_gb', default='32', arg_type=storage_gb_arg_type)
+            c.argument('version', default='5.7', arg_type=version_arg_type)
+            c.argument('iops', arg_type=iops_arg_type)
+            c.argument('auto_grow', default='Enabled', arg_type=auto_grow_arg_type)
+            c.argument('auto_scale_iops', default='Disabled', arg_type=auto_scale_iops_arg_type)
+            c.argument('backup_retention', default=7, arg_type=mysql_backup_retention_arg_type)
+            c.argument('backup_byok_identity', arg_type=backup_identity_arg_type)
+            c.argument('backup_byok_key', arg_type=backup_key_arg_type)
+            c.argument('byok_identity', arg_type=identity_arg_type)
+            c.argument('byok_key', arg_type=key_arg_type)
+            c.argument('geo_redundant_backup', default='Disabled', arg_type=geo_redundant_backup_arg_type)
+            c.argument('location', arg_type=get_location_type(self.cli_ctx))
+            c.argument('administrator_login', default=generate_username(), arg_type=administrator_login_arg_type)
+            c.argument('administrator_login_password', arg_type=administrator_login_password_arg_type)
+            c.argument('high_availability', arg_type=high_availability_arg_type, default="Disabled")
+            c.argument('public_access', arg_type=public_access_create_arg_type)
+            c.argument('vnet', arg_type=vnet_arg_type)
+            c.argument('vnet_address_prefix', arg_type=vnet_address_prefix_arg_type)
+            c.argument('subnet', arg_type=subnet_arg_type)
+            c.argument('subnet_address_prefix', arg_type=subnet_address_prefix_arg_type)
+            c.argument('private_dns_zone_arguments', private_dns_zone_arguments_arg_type)
+            c.argument('zone', zone_arg_type)
+            c.argument('tags', tags_type)
+            c.argument('standby_availability_zone', arg_type=standby_availability_zone_arg_type)
+            c.argument('database_name', arg_type=database_name_arg_type)
+            c.argument('yes', arg_type=yes_arg_type)
+            c.argument('data_source_type', arg_type=data_source_type_arg_type)
+            c.argument('data_source', arg_type=data_source_arg_type)
+            c.argument('mode', arg_type=mode_arg_type)
 
         with self.argument_context('{} flexible-server delete'.format(command_group)) as c:
             c.argument('yes', arg_type=yes_arg_type)

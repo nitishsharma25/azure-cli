@@ -75,5 +75,6 @@
     "term": "src/azure-cli/azure/cli/command_modules/marketplaceordering/_help.py",
     "util": "src/azure-cli/azure/cli/command_modules/util/_help.py",
     "vm": "src/azure-cli/azure/cli/command_modules/vm/_help.py",
-    "vmss": "src/azure-cli/azure/cli/command_modules/vm/_help.py"
+    "vmss": "src/azure-cli/azure/cli/command_modules/vm/_help.py",
+    "test1": "src/azure-cli/azure/cli/command_modules/test1/_help.py"
 }

@@ -651,3 +651,18 @@ def validate_byok_identity(cmd, namespace):
 def validate_identities(cmd, namespace):
     if namespace.identities:
         namespace.identities = [_validate_identity(cmd, namespace, identity) for identity in namespace.identities]
+
+
+# TODO add these validators in the mysql_validators method along their argument
+
+def data_source_type_validator(data_source_type, data_source, mode):
+    if data_source_type and (data_source is None or mode is None):
+        raise ValidationError("need migrate mode")
+
+def data_source_validator(data_source, data_source_type, mode):
+    if data_source and (data_source_type is None or mode is None):
+        raise ValidationError("need migrate mode")
+
+def mode_validator(data_source, data_source_type, mode):
+    if mode and (data_source_type is None or data_source is None):
+        raise ValidationError("need migrate mode")
