@@ -481,21 +481,21 @@ def load_arguments(self, _):    # pylint: disable=too-many-statements, too-many-
         )
 
         data_source_type_arg_type = CLIArgumentType(
-            # options_list=['']
-            # # arg_type=
-            # # help=
+            options_list=['--data-source-type'],
+            arg_type=get_enum_type(['mysql_single'])
+            help='Data source type. e.g., mysql_single: Azure Database for MySQL Servers'
         )
 
         data_source_arg_type = CLIArgumentType(
-            # options_list=[],
-            # arg_type=
-            # help=
+            options_list=['--data-source'],
+            help='Data source for importing to Flexible Server. Based on the data source type provide the data source as mentioned below. '
+                 'e.g., mysql_single: The name or resource ID of the azure MySQL single server. '
         )
 
         mode_arg_type = CLIArgumentType(
-            # options_list=[],
-            # arg_type=
-            # help
+            options_list=['--mode'],
+            arg_type=get_enum_type(['Offline'])
+            help='Mode of import. Enum values: [Offline]. Default is Offline. '
         )
 
         with self.argument_context('{} flexible-server'.format(command_group)) as c:
