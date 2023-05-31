@@ -18,7 +18,7 @@ short-summary: Manage Migrations from Azure Database for MySQL Single Servers to
 
 helps['mysql flexible-server import create'] = """
 type: command
-short-summary: Create a new import workflow for flexible server. 
+short-summary: Create a new import workflow for flexible server.
 long-summary: >
     Create a MySQL flexible server with custom or default configuration. For more information for network configuration, see
 

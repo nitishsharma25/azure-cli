@@ -256,7 +256,7 @@ def load_flexibleserver_command_table(self, _):
         g.custom_command('upgrade', 'flexible_server_version_upgrade', custom_command_type=flexible_server_custom_common)
         g.custom_wait_command('wait', 'flexible_server_mysql_get')
         g.custom_command('restart', 'flexible_server_restart')
-    
+
     with self.command_group('mysql flexible-server import', mysql_flexible_servers_sdk,
                             custom_command_type=flexible_servers_custom_mysql,
                             client_factory=cf_mysql_flexible_servers) as g:

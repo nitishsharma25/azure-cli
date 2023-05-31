@@ -99,6 +99,12 @@ class FlexibleServerMgmtScenarioTest(ScenarioTest):
     def test_mysql_flexible_server_mgmt(self, resource_group):
         self._test_flexible_server_mgmt('mysql', resource_group)
 
+    @pytest.mark.mysql_regression
+    @AllowLargeResponse()
+    @ResourceGroupPreparer(location=mysql_location)
+    def test_mysql_flexible_server_import_create(self, resource_group):
+        self._test_mysql_flexible_server_import_create('mysql', resource_group)
+
     # To run this test live, make sure that your role excludes the permission 'Microsoft.DBforMySQL/locations/checkNameAvailability/action'
     @pytest.mark.mysql_regression
     @ResourceGroupPreparer(location=mysql_location)
@@ -248,6 +254,20 @@ class FlexibleServerMgmtScenarioTest(ScenarioTest):
         self.cmd('{} flexible-server delete -g {} -n {} --yes'.format(database_engine, resource_group, server_name), checks=NoneCheck())
 
         self.cmd('{} flexible-server delete -g {} -n {} --yes'.format(database_engine, resource_group, restore_server_name), checks=NoneCheck())
+    
+    # @pytest.mark.custom_mark
+    def _test_mysql_flexible_server_import_create(self, database_engine, resource_group):
+        storage_size = 32
+        version = '5.7'
+        server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)
+        data_source_type = 'mysql_single'
+        data_source = 'nitish-single-ss'
+        mode = 'offline'
+
+        self.cmd('{} flexible-server import create -g {} -n {} --public-access None --version {} --storage-size {} --data-source-type {} --data-source {} --mode {}'
+                 .format(database_engine, resource_group, server_name, version, storage_size, data_source_type, data_source, mode))
+        
+
 
     def _test_flexible_server_check_name_availability_fallback_mgmt(self, database_engine, resource_group):
         server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)
