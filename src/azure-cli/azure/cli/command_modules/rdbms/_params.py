@@ -541,6 +541,7 @@ def load_arguments(self, _):    # pylint: disable=too-many-statements, too-many-
             c.argument('standby_availability_zone', arg_type=standby_availability_zone_arg_type)
             c.argument('database_name', arg_type=database_name_arg_type)
             c.argument('yes', arg_type=yes_arg_type)
+
         with self.argument_context('{} flexible-server import create'.format(command_group)) as c:
             c.argument('tier', default='Burstable', arg_type=tier_arg_type)
             c.argument('sku_name', default='Standard_B1ms', arg_type=sku_name_arg_type)
@@ -568,11 +569,11 @@ def load_arguments(self, _):    # pylint: disable=too-many-statements, too-many-
             c.argument('zone', zone_arg_type)
             c.argument('tags', tags_type)
             c.argument('standby_availability_zone', arg_type=standby_availability_zone_arg_type)
-            c.argument('database_name', arg_type=database_name_arg_type)
             c.argument('yes', arg_type=yes_arg_type)
-            c.argument('data_source_type', arg_type=data_source_type_arg_type)
-            c.argument('data_source', arg_type=data_source_arg_type)
+            c.argument('data_source_type', arg_type=data_source_type_arg_type, required=True)
+            c.argument('data_source', arg_type=data_source_arg_type, required=True)
             c.argument('mode', arg_type=mode_arg_type)
+            
         with self.argument_context('{} flexible-server delete'.format(command_group)) as c:
             c.argument('yes', arg_type=yes_arg_type)
 

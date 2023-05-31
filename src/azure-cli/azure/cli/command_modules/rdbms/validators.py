@@ -135,7 +135,7 @@ def mysql_restore_tier_validator(target_tier, source_tier, sku_info):
 
 
 # pylint: disable=too-many-locals
-def mysql_arguments_validator(db_context, location, tier, sku_name, storage_gb, backup_retention=None,
+def mysql_arguments_validator(db_context, data_source_type, data_source, mode, location, tier, sku_name, storage_gb, backup_retention=None,
                               server_name=None, zone=None, standby_availability_zone=None, high_availability=None,
                               subnet=None, public_access=None, version=None, auto_grow=None, replication_role=None,
                               geo_redundant_backup=None, byok_identity=None, backup_byok_identity=None, byok_key=None,
@@ -165,8 +165,19 @@ def mysql_arguments_validator(db_context, location, tier, sku_name, storage_gb, 
     _mysql_byok_validator(byok_identity, backup_byok_identity, byok_key, backup_byok_key,
                           disable_data_encryption, geo_redundant_backup, instance)
     _mysql_iops_validator(iops, auto_io_scaling, instance)
+    _mysql_import_data_source_type_validator(data_source_type, data_source)
+    _mysql_import_mode_validator(mode)
 
+def _mysql_import_data_source_type_validator(data_source_type, data_source):
+    allowed_values = ['mysql_single']
+    if data_source_type is not None and data_source_type.lower() not in allowed_values:
+        raise ArgumentUsageError('Incorrect value for --data-source-type. Allowed values : {}'.format(allowed_values))
 
+def _mysql_import_mode_validator(mode):
+    allowed_values = ['offline']
+    if mode is not None and mode.lower() not in allowed_values:
+        raise ArgumentUsageError('Incorrect value for --mode. Allowed values : {}'.format(allowed_values))
+    
 def mysql_retention_validator(backup_retention, sku_info, tier):
     if backup_retention is not None:
         backup_retention_range = get_mysql_backup_retention(sku_info, tier)
@@ -541,7 +552,6 @@ def validate_private_dns_zone(db_context, server_name, private_dns_zone, private
     if _is_resource_name(private_dns_zone) and not is_valid_resource_name(private_dns_zone) \
             or not _is_resource_name(private_dns_zone) and not is_valid_resource_id(private_dns_zone):
         raise ValidationError("Check if the private dns zone name or Id is in correct format.")
-
 
 def validate_mysql_ha_enabled(server):
     if server.storage_profile.storage_autogrow == "Disabled":

@@ -182,7 +182,7 @@ def flexible_server_create(cmd, client,
 
 def flexible_server_import_create(cmd, client,
                            resource_group_name=None, server_name=None,
-                           data_source_type=None, data_source=None,
+                           data_source_type=None, data_source=None, mode=None,
                            location=None, backup_retention=None,
                            sku_name=None, tier=None,
                            storage_gb=None, administrator_login=None,
@@ -193,10 +193,27 @@ def flexible_server_import_create(cmd, client,
                            high_availability=None, zone=None, standby_availability_zone=None,
                            iops=None, auto_grow=None, auto_scale_iops=None, geo_redundant_backup=None,
                            byok_identity=None, backup_byok_identity=None, byok_key=None, backup_byok_key=None,
-                           yes=False, no_wait=False):
+                           yes=False):
+    provider = 'Microsoft.DBforMySQL'
+
     # Generate missing parameters
     location, resource_group_name, server_name = generate_missing_parameters(cmd, location, resource_group_name,
                                                                              server_name, 'mysql')
+    
+    # Generating source_server_id from data_source depending on whether it is a server_name or resource_id
+    if not is_valid_resource_id(data_source):
+        if len(data_source.split('/')) == 1:
+            source_server_id = resource_id(
+                subscription=get_subscription_id(cmd.cli_ctx),
+                resource_group=resource_group_name,
+                namespace=provider,
+                type='servers',
+                name=data_source)
+        else:
+            raise ValueError('The provided source-server {} is invalid.'.format(data_source))
+    else:
+        source_server_id = data_source
+
     db_context = DbContext(
         cmd=cmd, cf_firewall=cf_mysql_flexible_firewall_rules, cf_db=cf_mysql_flexible_db,
         cf_availability=cf_mysql_check_resource_availability,
@@ -211,6 +228,9 @@ def flexible_server_import_create(cmd, client,
     if tier == 'BusinessCritical':
         tier = 'MemoryOptimized'
     mysql_arguments_validator(db_context,
+                              data_source_type=data_source_type,
+                              data_source=data_source,
+                              mode=mode,
                               server_name=server_name,
                               location=location,
                               tier=tier,
@@ -280,7 +300,6 @@ def flexible_server_import_create(cmd, client,
     # Create mysql server
     # Note : passing public_access has no effect as the accepted values are 'Enabled' and 'Disabled'. So the value ends up being ignored.
     server_result = _import_create_server(db_context, cmd, resource_group_name, server_name,
-                                   data_source=data_source,
                                    tags=tags,
                                    location=location,
                                    identity=identity,
@@ -293,7 +312,8 @@ def flexible_server_import_create(cmd, client,
                                    version=version,
                                    high_availability=high_availability,
                                    availability_zone=zone,
-                                   data_encryption=data_encryption)
+                                   data_encryption=data_encryption,
+                                   data_source=source_server_id)
 
     # Adding firewall rule
     if start_ip != -1 and end_ip != -1:
