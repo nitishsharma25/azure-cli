@@ -140,7 +140,7 @@ def mysql_arguments_validator(db_context, location, tier, sku_name, storage_gb, 
                               subnet=None, public_access=None, version=None, auto_grow=None, replication_role=None,
                               geo_redundant_backup=None, byok_identity=None, backup_byok_identity=None, byok_key=None,
                               backup_byok_key=None, disable_data_encryption=None, iops=None, auto_io_scaling=None,
-                              instance=None):
+                              instance=None, data_source_type=None, mode=None):
     validate_server_name(db_context, server_name, 'Microsoft.DBforMySQL/flexibleServers')
 
     list_skus_info = get_mysql_list_skus_info(db_context.cmd, location, server_name=instance.name if instance else None)
@@ -165,43 +165,11 @@ def mysql_arguments_validator(db_context, location, tier, sku_name, storage_gb, 
     _mysql_byok_validator(byok_identity, backup_byok_identity, byok_key, backup_byok_key,
                           disable_data_encryption, geo_redundant_backup, instance)
     _mysql_iops_validator(iops, auto_io_scaling, instance)
-
-
-def mysql_import_arguments_validator(db_context, data_source_type, data_source, mode, location, tier, sku_name, storage_gb, backup_retention=None,
-                                     server_name=None, zone=None, standby_availability_zone=None, high_availability=None,
-                                     subnet=None, public_access=None, version=None, auto_grow=None, replication_role=None,
-                                     geo_redundant_backup=None, byok_identity=None, backup_byok_identity=None, byok_key=None,
-                                     backup_byok_key=None, disable_data_encryption=None, iops=None, auto_io_scaling=None,
-                                     instance=None):
-    validate_server_name(db_context, server_name, 'Microsoft.DBforMySQL/flexibleServers')
-
-    list_skus_info = get_mysql_list_skus_info(db_context.cmd, location, server_name=instance.name if instance else None)
-    sku_info = list_skus_info['sku_info']
-    single_az = list_skus_info['single_az']
-    geo_paired_regions = list_skus_info['geo_paired_regions']
-
-    _network_arg_validator(subnet, public_access)
-    _mysql_tier_validator(tier, sku_info)  # need to be validated first
-    if geo_redundant_backup is None and instance is not None:
-        geo_redundant_backup = instance.backup.geo_redundant_backup
-    mysql_georedundant_backup_validator(geo_redundant_backup, geo_paired_regions)
-    if tier is None and instance is not None:
-        tier = instance.sku.tier
-    mysql_retention_validator(backup_retention, sku_info, tier)
-    mysql_storage_validator(storage_gb, sku_info, tier, instance)
-    mysql_sku_name_validator(sku_name, sku_info, tier, instance)
-    _mysql_high_availability_validator(high_availability, standby_availability_zone, zone, tier,
-                                       single_az, auto_grow, instance)
-    _mysql_version_validator(version, sku_info, tier, instance)
-    mysql_auto_grow_validator(auto_grow, replication_role, high_availability, instance)
-    _mysql_byok_validator(byok_identity, backup_byok_identity, byok_key, backup_byok_key,
-                          disable_data_encryption, geo_redundant_backup, instance)
-    _mysql_iops_validator(iops, auto_io_scaling, instance)
-    _mysql_import_data_source_type_validator(data_source_type, data_source)
+    _mysql_import_data_source_type_validator(data_source_type)
     _mysql_import_mode_validator(mode)
 
 
-def _mysql_import_data_source_type_validator(data_source_type, data_source):
+def _mysql_import_data_source_type_validator(data_source_type):
     allowed_values = ['mysql_single']
     if data_source_type is not None and data_source_type.lower() not in allowed_values:
         raise ArgumentUsageError('Incorrect value for --data-source-type. Allowed values : {}'.format(allowed_values))

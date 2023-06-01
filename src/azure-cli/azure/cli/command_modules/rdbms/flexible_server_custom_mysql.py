@@ -24,7 +24,7 @@ from ._flexible_server_util import resolve_poller, generate_missing_parameters, 
 from .flexible_server_custom_common import create_firewall_rule
 from .flexible_server_virtual_network import prepare_mysql_exist_private_dns_zone, prepare_mysql_exist_private_network, \
     prepare_private_network, prepare_private_dns_zone, prepare_public_network
-from .validators import mysql_arguments_validator, mysql_import_arguments_validator, mysql_auto_grow_validator, mysql_georedundant_backup_validator, \
+from .validators import mysql_arguments_validator, mysql_auto_grow_validator, mysql_georedundant_backup_validator, \
     mysql_restore_tier_validator, mysql_retention_validator, mysql_sku_name_validator, mysql_storage_validator, \
     validate_mysql_replica, validate_server_name, validate_georestore_location, \
     validate_mysql_tier_update, validate_and_format_restore_point_in_time, validate_replica_location
@@ -188,8 +188,8 @@ def flexible_server_import_create(cmd, client,
                                   sku_name=None, tier=None,
                                   storage_gb=None, administrator_login=None,
                                   administrator_login_password=None, version=None,
-                                  tags=None, database_name=None,
-                                  subnet=None, subnet_address_prefix=None, vnet=None, vnet_address_prefix=None,
+                                  tags=None, subnet=None,
+                                  subnet_address_prefix=None, vnet=None, vnet_address_prefix=None,
                                   private_dns_zone_arguments=None, public_access=None,
                                   high_availability=None, zone=None, standby_availability_zone=None,
                                   iops=None, auto_grow=None, auto_scale_iops=None, geo_redundant_backup=None,
@@ -211,7 +211,7 @@ def flexible_server_import_create(cmd, client,
                 type='servers',
                 name=data_source)
         else:
-            raise ValueError('The provided source-server {} is invalid.'.format(data_source))
+            raise ValueError('The provided data-source {} is invalid.'.format(data_source))
     else:
         source_server_id = data_source
 
@@ -228,30 +228,29 @@ def flexible_server_import_create(cmd, client,
     # MySQL chnged MemoryOptimized tier to BusinessCritical (only in client tool not in list-skus return)
     if tier == 'BusinessCritical':
         tier = 'MemoryOptimized'
-    mysql_import_arguments_validator(db_context,
-                                     data_source_type=data_source_type,
-                                     data_source=data_source,
-                                     mode=mode,
-                                     server_name=server_name,
-                                     location=location,
-                                     tier=tier,
-                                     sku_name=sku_name,
-                                     storage_gb=storage_gb,
-                                     backup_retention=backup_retention,
-                                     high_availability=high_availability,
-                                     standby_availability_zone=standby_availability_zone,
-                                     zone=zone,
-                                     subnet=subnet,
-                                     public_access=public_access,
-                                     auto_grow=auto_grow,
-                                     version=version,
-                                     geo_redundant_backup=geo_redundant_backup,
-                                     byok_identity=byok_identity,
-                                     backup_byok_identity=backup_byok_identity,
-                                     byok_key=byok_key,
-                                     backup_byok_key=backup_byok_key,
-                                     auto_io_scaling=auto_scale_iops,
-                                     iops=iops)
+    mysql_arguments_validator(db_context,
+                              data_source_type=data_source_type,
+                              mode=mode,
+                              server_name=server_name,
+                              location=location,
+                              tier=tier,
+                              sku_name=sku_name,
+                              storage_gb=storage_gb,
+                              backup_retention=backup_retention,
+                              high_availability=high_availability,
+                              standby_availability_zone=standby_availability_zone,
+                              zone=zone,
+                              subnet=subnet,
+                              public_access=public_access,
+                              auto_grow=auto_grow,
+                              version=version,
+                              geo_redundant_backup=geo_redundant_backup,
+                              byok_identity=byok_identity,
+                              backup_byok_identity=backup_byok_identity,
+                              byok_key=byok_key,
+                              backup_byok_key=backup_byok_key,
+                              auto_io_scaling=auto_scale_iops,
+                              iops=iops)
     list_skus_info = get_mysql_list_skus_info(db_context.cmd, location)
     iops_info = list_skus_info['iops_info']
 
@@ -337,8 +336,8 @@ def flexible_server_import_create(cmd, client,
 
     return _form_response(user, sku, loc, server_id, host, version,
                           administrator_login_password if administrator_login_password is not None else '*****',
-                          _create_mysql_connection_string(host, database_name, user, administrator_login_password),
-                          database_name, firewall_name, subnet_id)
+                          _create_mysql_connection_string(host, user, None, administrator_login_password),
+                          None, firewall_name, subnet_id)
 
 
 def flexible_server_restore(cmd, client,
@@ -1033,7 +1032,7 @@ def _import_create_server(db_context, cmd, resource_group_name, server_name, dat
 
     return resolve_poller(
         server_client.begin_create(resource_group_name, server_name, parameters), cmd.cli_ctx,
-        '{} Server Create'.format(logging_name))
+        '{} Server Import Create'.format(logging_name))
 
 
 def flexible_server_connection_string(
@@ -1077,8 +1076,8 @@ def _create_mysql_connection_strings(host, user, password, database):
     return result
 
 
-def _form_response(username, sku, location, server_id, host, version, password, connection_string, database_name,
-                   firewall_id=None, subnet_id=None):
+def _form_response(username, sku, location, server_id, host, version, password, connection_string,
+                   database_name=None, firewall_id=None, subnet_id=None):
     output = {
         'host': host,
         'username': username,
@@ -1087,9 +1086,10 @@ def _form_response(username, sku, location, server_id, host, version, password, 
         'location': location,
         'id': server_id,
         'version': version,
-        'databaseName': database_name,
         'connectionString': connection_string
     }
+    if database_name is not None:
+        output['databaseName'] = database_name
     if firewall_id is not None:
         output['firewallName'] = firewall_id
     if subnet_id is not None:
@@ -1153,7 +1153,10 @@ def _create_mysql_connection_string(host, database_name, user_name, password):
         'username': user_name,
         'password': password if password is not None else '{password}'
     }
-    return 'mysql {dbname} --host {host} --user {username} --password={password}'.format(**connection_kwargs)
+    if database_name is not None:
+        connection_kwargs['dbname'] = database_name
+        return 'mysql {dbname} --host {host} --user {username} --password={password}'.format(**connection_kwargs)
+    return 'mysql --host {host} --user {username} --password={password}'.format(**connection_kwargs)
 
 
 def _determine_iops(storage_gb, iops_info, iops_input, tier, sku_name):
