@@ -260,8 +260,8 @@ class FlexibleServerMgmtScenarioTest(ScenarioTest):
         storage_size = 32
         version = '5.7'
         location = 'eastus'
-        sku_name = 'Standard_D2ds_v4'
-        tier = 'GeneralPurpose'
+        sku_name = 'Standard_B1ms'
+        tier = 'Burstable'
         resource_group = 'nitishsharma-group'
         server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)
         data_source_type = 'mysql_single'
@@ -271,8 +271,8 @@ class FlexibleServerMgmtScenarioTest(ScenarioTest):
         self.cmd('{} flexible-server import create -g {} -n {} --sku-name {} --tier {} \
                   --storage-size {} -u {} --version {} --tags keys=3 \
                   --public-access None --location {} --data-source-type {} --data-source {} --mode {}'.format(database_engine,
-                                                                                                resource_group, server_name, 
-                                                                                                'dbadmin', version, location, data_source_type, data_source, mode))
+                                                                                                              resource_group, server_name, sku_name, tier, storage_size,
+                                                                                                              'dbadmin', version, location, data_source_type, data_source, mode))
 
         basic_info = self.cmd('{} flexible-server show -g {} -n {}'.format(database_engine, resource_group, server_name)).get_output_in_json()
         self.assertEqual(basic_info['name'], server_name)
@@ -282,8 +282,9 @@ class FlexibleServerMgmtScenarioTest(ScenarioTest):
         self.assertEqual(basic_info['sku']['tier'], tier)
         self.assertEqual(basic_info['version'], version)
         self.assertEqual(basic_info['storage']['storageSizeGb'], storage_size)
-        
 
+        self.cmd('{} flexible-server delete -g {} -n {} --yes'.format(database_engine, resource_group, server_name), checks=NoneCheck())
+        
 
     def _test_flexible_server_check_name_availability_fallback_mgmt(self, database_engine, resource_group):
         server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)

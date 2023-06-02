@@ -20,7 +20,7 @@ helps['mysql flexible-server import create'] = """
 type: command
 short-summary: Create a new import workflow for flexible server.
 long-summary: >
-    Create a MySQL flexible server with custom or default configuration. For more information for network configuration, see
+    Migrate a MySQL single server to flexible server with custom or default configuration. For more information for network configuration, see
 
     - Configure public access
 
@@ -32,159 +32,15 @@ long-summary: >
 
 examples:
   - name: >
-      Create a MySQL flexible server with custom parameters
+      Trigger a Import from single server to flexible server
     text: >
-        az mysql flexible-server create --location northeurope --resource-group testGroup \\
-          --name testserver --admin-user username --admin-password password \\
-          --sku-name Standard_B1ms --tier Burstable --public-access 0.0.0.0 --storage-size 32 \\
-          --tags "key=value" --version 5.7 --high-availability ZoneRedundant --zone 1 \\
-          --standby-zone 3 --storage-auto-grow Enabled --iops 500
-  - name: >
-      Create a MySQL flexible server with default parameters and public access enabled by default. \
-      Resource group, server name, username, password, and default database will be created by CLI
-    text: >
-        az mysql flexible-server create
-  - name: >
-      Create a MySQL flexible server with public access and add the range of IP address to have access to this server.
-      The --public-access parameter can be 'All', 'None', <startIpAddress>, or <startIpAddress>-<endIpAddress>
-    text: >
-      az mysql flexible-server create --resource-group testGroup --name testserver --public-access 125.23.54.31-125.23.54.35
-  - name: >
-      Create a MySQL flexible server with private access. If provided virtual network and subnet do not exists, virtual network and subnet with the specified address prefixes will be created.
-    text: >
-      az mysql flexible-server create --resource-group testGroup --name testserver --vnet myVnet --subnet mySubnet --address-prefixes 10.0.0.0/16 --subnet-prefixes 10.0.0.0/24
-  - name: >
-      Create a MySQL flexible server using a new subnet resource ID and new private DNS zone resource ID. The subnet and DNS zone can be created in different subscription or resource group.
-    text: |
-      az mysql flexible-server create \\
-        --resource-group testGroup --name testserver \\
-        --subnet /subscriptions/{SubID}/resourceGroups/{ResourceGroup}/providers/Microsoft.Network/virtualNetworks/{VNetName}/subnets/{SubnetName} \\
-        --private-dns-zone /subscriptions/{SubID}/resourceGroups/{resourceGroup}/providers/Microsoft.Network/privateDnsZones/testMySQLFlexibleDnsZone.private.mysql.database.azure.com \\
-        --address-prefixes 172.0.0.0/16 --subnet-prefixes 172.0.0.0/24
-  - name: >
-      Create a MySQL flexible server using existing network resources in the same resource group.
-      The provided subnet should not have any other resource deployed in it and this subnet will be delegated to Microsoft.DBforMySQL/flexibleServers, if not already delegated.
-      The private DNS zone will be linked to the virtual network if not already linked.
-    text: >
-      # create vnet
-
-      az network vnet create --resource-group testGroup --name testVnet --location testLocation --address-prefixes 172.0.0.0/16
-
-
-      # create subnet
-
-      az network vnet subnet create --resource-group testGroup --vnet-name testVnet --address-prefixes 172.0.0.0/24 --name testSubnet
-
-
-      # create private dns zone
-
-      az network private-dns zone create -g testGroup -n testDNS.private.mysql.database.azure.com
-
-
-      az mysql flexible-server create --resource-group testGroup \\
-        --name testserver --location testLocation \\
-        --subnet /subscriptions/{SubId}/resourceGroups/{testGroup}/providers/Microsoft.Network/virtualNetworks/tesetVnet/subnets/testSubnet \\
-        --private-dns-zone /subscriptions/{SubId}/resourceGroups/{testGroup}/providers/Microsoft.Network/privateDnsZones/testDNS.mysql.database.azure.com\\
-
-
-      az mysql flexible-server create --resource-group testGroup --name testserver \\
-        --vnet testVnet --subnet testSubnet --location testLocation \\
-        --private-dns-zone /subscriptions/{SubId}/resourceGroups/{testGroup}/providers/Microsoft.Network/privateDnsZones/testDNS.mysql.database.azure.com
-  - name: >
-      Create a MySQL flexible server using existing network resources in the different resource group / subscription.
-    text: >
-      az mysql flexible-server create --resource-group testGroup \\
-         --name testserver --location testLocation \\
-        --subnet /subscriptions/{SubId2}/resourceGroups/{testGroup2}/providers/Microsoft.Network/virtualNetworks/tesetVnet/subnets/testSubnet \\
-        --private-dns-zone /subscriptions/{SubId2}/resourceGroups/{testGroup2}/providers/Microsoft.Network/privateDnsZones/testDNS.mysql.database.azure.com
-  - name: >
-      Create a MySQL flexible server with data encryption.
-    text: >
-      # create keyvault
-
-      az keyvault create -g testGroup -n testVault --location testLocation \\
-        --enable-purge-protection true
-
-
-      # create key in keyvault and save its key identifier
-
-      keyIdentifier=$(az keyvault key create --name testKey -p software \\
-        --vault-name testVault --query key.kid -o tsv)
-
-
-      # create identity and save its principalId
-
-      identityPrincipalId=$(az identity create -g testGroup --name testIdentity \\
-        --location testLocation --query principalId -o tsv)
-
-
-      # add testIdentity as an access policy with key permissions 'Wrap Key', 'Unwrap Key', 'Get' and 'List' inside testVault
-
-      az keyvault set-policy -g testGroup -n testVault --object-id $identityPrincipalId \\
-        --key-permissions wrapKey unwrapKey get list
-
-
-      # create flexible server with data encryption enabled
-
-      az mysql flexible-server create -g testGroup -n testServer --location testLocation \\
-        --key $keyIdentifier --identity testIdentity
-  - name: >
-      Create a MySQL flexible server with geo redundant backup and data encryption.
-    text: >
-      # create keyvault
-
-      az keyvault create -g testGroup -n testVault --location testLocation \\
-        --enable-purge-protection true
-
-
-      # create key in keyvault and save its key identifier
-
-      keyIdentifier=$(az keyvault key create --name testKey -p software \\
-        --vault-name testVault --query key.kid -o tsv)
-
-
-      # create identity and save its principalId
-
-      identityPrincipalId=$(az identity create -g testGroup --name testIdentity \\
-        --location testLocation --query principalId -o tsv)
-
-
-      # add testIdentity as an access policy with key permissions 'Wrap Key', 'Unwrap Key', 'Get' and 'List' inside testVault
-
-      az keyvault set-policy -g testGroup -n testVault --object-id $identityPrincipalId \\
-        --key-permissions wrapKey unwrapKey get list
-
-
-      # create backup keyvault
-
-      az keyvault create -g testGroup -n testBackupVault --location testBackupLocation \\
-        --enable-purge-protection true
-
-
-      # create backup key in backup keyvault and save its key identifier
-
-      backupKeyIdentifier=$(az keyvault key create --name testBackupKey -p software \\
-        --vault-name testBackupVault --query key.kid -o tsv)
-
-
-      # create backup identity and save its principalId
-
-      backupIdentityPrincipalId=$(az identity create -g testGroup --name testBackupIdentity \\
-        --location testBackupLocation --query principalId -o tsv)
-
-
-      # add testBackupIdentity as an access policy with key permissions 'Wrap Key', 'Unwrap Key', 'Get' and 'List' inside testBackupVault
-
-      az keyvault set-policy -g testGroup -n testBackupVault \\
-        --object-id $backupIdentityPrincipalId --key-permissions wrapKey unwrapKey get list
-
-
-      # create flexible server with geo redundant backup and data encryption enabled
-
-      az mysql flexible-server create -g testGroup -n testServer --location testLocation \\
-        --geo-redundant-backup Enabled \\
-        --key $keyIdentifier --identity testIdentity \\
-        --backup-key $backupKeyIdentifier --backup-identity testBackupIdentity
+        az mysql flexible-server import create --data-source-type mysql_single \\
+          --data-source test-single-server --subscription “ffffffffffff-ffff-ffff-ffff-ffffffff” \\
+          --resource-group “test-rg” --location northeurope \\
+          --server-name "testserver" --admin-user username --admin-password password \\
+          --sku-name Standard_B1ms --tier Burstable --public-access 0.0.0.0 \\
+          --storage-size 32 --tags "key=value" --version 5.7 --high-availability ZoneRedundant \\
+          --zone 1 --standby-zone 3 --storage-auto-grow Enabled --iops 500 
 """
 
 helps['mysql flexible-server create'] = """
