@@ -26,7 +26,7 @@ interactions:
       content-length:
       - '0'
       date:
-      - Fri, 02 Jun 2023 10:12:06 GMT
+      - Fri, 02 Jun 2023 11:41:18 GMT
       expires:
       - '-1'
       pragma:
@@ -67,7 +67,7 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:12:06 GMT
+      - Fri, 02 Jun 2023 11:41:17 GMT
       expires:
       - '-1'
       pragma:
@@ -114,7 +114,7 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:12:09 GMT
+      - Fri, 02 Jun 2023 11:41:20 GMT
       expires:
       - '-1'
       pragma:
@@ -163,7 +163,7 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:12:11 GMT
+      - Fri, 02 Jun 2023 11:41:23 GMT
       expires:
       - '-1'
       pragma:
@@ -210,7 +210,7 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:12:14 GMT
+      - Fri, 02 Jun 2023 11:41:24 GMT
       expires:
       - '-1'
       pragma:
@@ -229,9 +229,9 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"tags": {"keys": "3"}, "location": "eastus", "sku": {"name": "Standard_D2ds_v4",
-      "tier": "GeneralPurpose"}, "properties": {"administratorLogin": "dbadmin", "administratorLoginPassword":
-      "So3E_ThYBFRhLaCvtaNNcQ", "version": "5.7", "createMode": "Migrate", "sourceServerResourceId":
+    body: '{"tags": {"keys": "3"}, "location": "eastus", "sku": {"name": "Standard_B1ms",
+      "tier": "Burstable"}, "properties": {"administratorLogin": "dbadmin", "administratorLoginPassword":
+      "NlVG_HNd0DKVIw1NNDfkoA", "version": "5.7", "createMode": "Migrate", "sourceServerResourceId":
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nitishsharma-group/providers/Microsoft.DBforMySQL/servers/nitish-single-ss",
       "storage": {"storageSizeGB": 32, "iops": 396, "autoGrow": "Enabled", "autoIoScaling":
       "Disabled"}, "backup": {"backupRetentionDays": 7, "geoRedundantBackup": "Disabled"},
@@ -247,7 +247,7 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '687'
+      - '679'
       Content-Type:
       - application/json
       ParameterSetName:
@@ -259,10 +259,10 @@ interactions:
     uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nitishsharma-group/providers/Microsoft.DBforMySQL/flexibleServers/azuredbclitest-000002?api-version=2022-09-30-preview
   response:
     body:
-      string: '{"operation":"UpsertServerManagementOperationV2","startTime":"2023-06-02T10:12:19.49Z"}'
+      string: '{"operation":"UpsertServerManagementOperationV2","startTime":"2023-06-02T11:41:31.37Z"}'
     headers:
       azure-asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/55c1588e-8a8c-43e6-9775-eca0d080f569?api-version=2022-09-30-preview
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/f494bc49-0968-41ce-9b21-df3bfb77a3bb?api-version=2022-09-30-preview
       cache-control:
       - no-cache
       content-length:
@@ -270,11 +270,11 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:12:19 GMT
+      - Fri, 02 Jun 2023 11:41:31 GMT
       expires:
       - '-1'
       location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/operationResults/55c1588e-8a8c-43e6-9775-eca0d080f569?api-version=2022-09-30-preview
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/operationResults/f494bc49-0968-41ce-9b21-df3bfb77a3bb?api-version=2022-09-30-preview
       pragma:
       - no-cache
       server:
@@ -305,10 +305,10 @@ interactions:
       User-Agent:
       - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
     method: GET
-    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/55c1588e-8a8c-43e6-9775-eca0d080f569?api-version=2022-09-30-preview
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/f494bc49-0968-41ce-9b21-df3bfb77a3bb?api-version=2022-09-30-preview
   response:
     body:
-      string: '{"name":"55c1588e-8a8c-43e6-9775-eca0d080f569","status":"InProgress","startTime":"2023-06-02T10:12:19.49Z"}'
+      string: '{"name":"f494bc49-0968-41ce-9b21-df3bfb77a3bb","status":"InProgress","startTime":"2023-06-02T11:41:31.37Z"}'
     headers:
       cache-control:
       - no-cache
@@ -317,7 +317,7 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:12:19 GMT
+      - Fri, 02 Jun 2023 11:41:31 GMT
       expires:
       - '-1'
       pragma:
@@ -352,10 +352,10 @@ interactions:
       User-Agent:
       - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
     method: GET
-    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/55c1588e-8a8c-43e6-9775-eca0d080f569?api-version=2022-09-30-preview
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/f494bc49-0968-41ce-9b21-df3bfb77a3bb?api-version=2022-09-30-preview
   response:
     body:
-      string: '{"name":"55c1588e-8a8c-43e6-9775-eca0d080f569","status":"InProgress","startTime":"2023-06-02T10:12:19.49Z"}'
+      string: '{"name":"f494bc49-0968-41ce-9b21-df3bfb77a3bb","status":"InProgress","startTime":"2023-06-02T11:41:31.37Z"}'
     headers:
       cache-control:
       - no-cache
@@ -364,7 +364,7 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:13:20 GMT
+      - Fri, 02 Jun 2023 11:42:32 GMT
       expires:
       - '-1'
       pragma:
@@ -399,10 +399,10 @@ interactions:
       User-Agent:
       - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
     method: GET
-    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/55c1588e-8a8c-43e6-9775-eca0d080f569?api-version=2022-09-30-preview
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/f494bc49-0968-41ce-9b21-df3bfb77a3bb?api-version=2022-09-30-preview
   response:
     body:
-      string: '{"name":"55c1588e-8a8c-43e6-9775-eca0d080f569","status":"InProgress","startTime":"2023-06-02T10:12:19.49Z"}'
+      string: '{"name":"f494bc49-0968-41ce-9b21-df3bfb77a3bb","status":"InProgress","startTime":"2023-06-02T11:41:31.37Z"}'
     headers:
       cache-control:
       - no-cache
@@ -411,7 +411,7 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:14:21 GMT
+      - Fri, 02 Jun 2023 11:43:33 GMT
       expires:
       - '-1'
       pragma:
@@ -446,10 +446,10 @@ interactions:
       User-Agent:
       - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
     method: GET
-    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/55c1588e-8a8c-43e6-9775-eca0d080f569?api-version=2022-09-30-preview
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/f494bc49-0968-41ce-9b21-df3bfb77a3bb?api-version=2022-09-30-preview
   response:
     body:
-      string: '{"name":"55c1588e-8a8c-43e6-9775-eca0d080f569","status":"InProgress","startTime":"2023-06-02T10:12:19.49Z"}'
+      string: '{"name":"f494bc49-0968-41ce-9b21-df3bfb77a3bb","status":"InProgress","startTime":"2023-06-02T11:41:31.37Z"}'
     headers:
       cache-control:
       - no-cache
@@ -458,7 +458,7 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:15:23 GMT
+      - Fri, 02 Jun 2023 11:44:34 GMT
       expires:
       - '-1'
       pragma:
@@ -493,10 +493,10 @@ interactions:
       User-Agent:
       - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
     method: GET
-    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/55c1588e-8a8c-43e6-9775-eca0d080f569?api-version=2022-09-30-preview
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/eastus/azureAsyncOperation/f494bc49-0968-41ce-9b21-df3bfb77a3bb?api-version=2022-09-30-preview
   response:
     body:
-      string: '{"name":"55c1588e-8a8c-43e6-9775-eca0d080f569","status":"Succeeded","startTime":"2023-06-02T10:12:19.49Z"}'
+      string: '{"name":"f494bc49-0968-41ce-9b21-df3bfb77a3bb","status":"Succeeded","startTime":"2023-06-02T11:41:31.37Z"}'
     headers:
       cache-control:
       - no-cache
@@ -505,7 +505,7 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:16:24 GMT
+      - Fri, 02 Jun 2023 11:45:35 GMT
       expires:
       - '-1'
       pragma:
@@ -543,17 +543,17 @@ interactions:
     uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nitishsharma-group/providers/Microsoft.DBforMySQL/flexibleServers/azuredbclitest-000002?api-version=2022-09-30-preview
   response:
     body:
-      string: '{"sku":{"name":"Standard_D2ds_v4","tier":"GeneralPurpose"},"systemData":{"createdAt":"2023-06-02T10:12:22.7230877Z"},"properties":{"administratorLogin":"dbadmin","storage":{"storageSizeGB":32,"iops":396,"autoGrow":"Enabled","autoIoScaling":"Disabled","storageSku":"Premium_LRS","logOnDisk":"Disabled"},"version":"5.7","state":"Ready","fullyQualifiedDomainName":"azuredbclitest-000002.mysql.database.azure.com","sourceServerResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nitishsharma-group/providers/Microsoft.DBforMySQL/servers/nitish-single-ss","availabilityZone":"3","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-06-02T10:15:46.4334424+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""},"privateEndpointConnections":[]},"location":"East
+      string: '{"sku":{"name":"Standard_B1ms","tier":"Burstable"},"systemData":{"createdAt":"2023-06-02T11:41:34.6674246Z"},"properties":{"administratorLogin":"dbadmin","storage":{"storageSizeGB":32,"iops":396,"autoGrow":"Enabled","autoIoScaling":"Disabled","storageSku":"Premium_LRS","logOnDisk":"Disabled"},"version":"5.7","state":"Ready","fullyQualifiedDomainName":"azuredbclitest-000002.mysql.database.azure.com","sourceServerResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nitishsharma-group/providers/Microsoft.DBforMySQL/servers/nitish-single-ss","availabilityZone":"2","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-06-02T11:44:58.2298043+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""},"privateEndpointConnections":[]},"location":"East
         US","tags":{"keys":"3"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nitishsharma-group/providers/Microsoft.DBforMySQL/flexibleServers/azuredbclitest-000002","name":"azuredbclitest-000002","type":"Microsoft.DBforMySQL/flexibleServers"}'
     headers:
       cache-control:
       - no-cache
       content-length:
-      - '1311'
+      - '1303'
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:16:24 GMT
+      - Fri, 02 Jun 2023 11:45:36 GMT
       expires:
       - '-1'
       pragma:
@@ -590,17 +590,17 @@ interactions:
     uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nitishsharma-group/providers/Microsoft.DBforMySQL/flexibleServers/azuredbclitest-000002?api-version=2022-09-30-preview
   response:
     body:
-      string: '{"sku":{"name":"Standard_D2ds_v4","tier":"GeneralPurpose"},"systemData":{"createdAt":"2023-06-02T10:12:22.7230877Z"},"properties":{"administratorLogin":"dbadmin","storage":{"storageSizeGB":32,"iops":396,"autoGrow":"Enabled","autoIoScaling":"Disabled","storageSku":"Premium_LRS","logOnDisk":"Disabled"},"version":"5.7","state":"Ready","fullyQualifiedDomainName":"azuredbclitest-000002.mysql.database.azure.com","sourceServerResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nitishsharma-group/providers/Microsoft.DBforMySQL/servers/nitish-single-ss","availabilityZone":"3","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-06-02T10:15:46.4334424+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""},"privateEndpointConnections":[]},"location":"East
+      string: '{"sku":{"name":"Standard_B1ms","tier":"Burstable"},"systemData":{"createdAt":"2023-06-02T11:41:34.6674246Z"},"properties":{"administratorLogin":"dbadmin","storage":{"storageSizeGB":32,"iops":396,"autoGrow":"Enabled","autoIoScaling":"Disabled","storageSku":"Premium_LRS","logOnDisk":"Disabled"},"version":"5.7","state":"Ready","fullyQualifiedDomainName":"azuredbclitest-000002.mysql.database.azure.com","sourceServerResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nitishsharma-group/providers/Microsoft.DBforMySQL/servers/nitish-single-ss","availabilityZone":"2","maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0},"replicationRole":"None","replicaCapacity":10,"network":{"publicNetworkAccess":"Enabled"},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2023-06-02T11:44:58.2298043+00:00"},"highAvailability":{"mode":"Disabled","state":"NotEnabled","standbyAvailabilityZone":""},"privateEndpointConnections":[]},"location":"East
         US","tags":{"keys":"3"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nitishsharma-group/providers/Microsoft.DBforMySQL/flexibleServers/azuredbclitest-000002","name":"azuredbclitest-000002","type":"Microsoft.DBforMySQL/flexibleServers"}'
     headers:
       cache-control:
       - no-cache
       content-length:
-      - '1311'
+      - '1303'
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:16:28 GMT
+      - Fri, 02 Jun 2023 11:45:41 GMT
       expires:
       - '-1'
       pragma:
@@ -639,10 +639,10 @@ interactions:
     uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/nitishsharma-group/providers/Microsoft.DBforMySQL/flexibleServers/azuredbclitest-000002?api-version=2022-09-30-preview
   response:
     body:
-      string: '{"operation":"DropServerManagementOperation","startTime":"2023-06-02T10:16:31.637Z"}'
+      string: '{"operation":"DropServerManagementOperation","startTime":"2023-06-02T11:45:44.887Z"}'
     headers:
       azure-asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/East%20US/azureAsyncOperation/5aefc4b3-55f8-4ac6-b17c-4384a1ff8ad2?api-version=2022-09-30-preview
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/East%20US/azureAsyncOperation/4bdc6122-9f1b-4f3b-b254-d943ea5fb348?api-version=2022-09-30-preview
       cache-control:
       - no-cache
       content-length:
@@ -650,11 +650,11 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:16:31 GMT
+      - Fri, 02 Jun 2023 11:45:44 GMT
       expires:
       - '-1'
       location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/East%20US/operationResults/5aefc4b3-55f8-4ac6-b17c-4384a1ff8ad2?api-version=2022-09-30-preview
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/East%20US/operationResults/4bdc6122-9f1b-4f3b-b254-d943ea5fb348?api-version=2022-09-30-preview
       pragma:
       - no-cache
       server:
@@ -684,10 +684,10 @@ interactions:
       User-Agent:
       - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
     method: GET
-    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/East%20US/azureAsyncOperation/5aefc4b3-55f8-4ac6-b17c-4384a1ff8ad2?api-version=2022-09-30-preview
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/East%20US/azureAsyncOperation/4bdc6122-9f1b-4f3b-b254-d943ea5fb348?api-version=2022-09-30-preview
   response:
     body:
-      string: '{"name":"5aefc4b3-55f8-4ac6-b17c-4384a1ff8ad2","status":"InProgress","startTime":"2023-06-02T10:16:31.637Z"}'
+      string: '{"name":"4bdc6122-9f1b-4f3b-b254-d943ea5fb348","status":"InProgress","startTime":"2023-06-02T11:45:44.887Z"}'
     headers:
       cache-control:
       - no-cache
@@ -696,7 +696,7 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:16:31 GMT
+      - Fri, 02 Jun 2023 11:45:45 GMT
       expires:
       - '-1'
       pragma:
@@ -730,10 +730,10 @@ interactions:
       User-Agent:
       - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
     method: GET
-    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/East%20US/azureAsyncOperation/5aefc4b3-55f8-4ac6-b17c-4384a1ff8ad2?api-version=2022-09-30-preview
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/East%20US/azureAsyncOperation/4bdc6122-9f1b-4f3b-b254-d943ea5fb348?api-version=2022-09-30-preview
   response:
     body:
-      string: '{"name":"5aefc4b3-55f8-4ac6-b17c-4384a1ff8ad2","status":"Succeeded","startTime":"2023-06-02T10:16:31.637Z"}'
+      string: '{"name":"4bdc6122-9f1b-4f3b-b254-d943ea5fb348","status":"Succeeded","startTime":"2023-06-02T11:45:44.887Z"}'
     headers:
       cache-control:
       - no-cache
@@ -742,7 +742,7 @@ interactions:
       content-type:
       - application/json; charset=utf-8
       date:
-      - Fri, 02 Jun 2023 10:16:46 GMT
+      - Fri, 02 Jun 2023 11:46:00 GMT
       expires:
       - '-1'
       pragma:
