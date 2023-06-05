@@ -336,7 +336,7 @@ def flexible_server_import_create(cmd, client,
 
     return _form_response(user, sku, loc, server_id, host, version,
                           administrator_login_password if administrator_login_password is not None else '*****',
-                          _create_mysql_connection_string(host, user, None, administrator_login_password),
+                          _create_mysql_connection_string(host, None, user, administrator_login_password),
                           None, firewall_name, subnet_id)
 
 
@@ -1149,7 +1149,6 @@ def database_create_func(client, resource_group_name, server_name, database_name
 def _create_mysql_connection_string(host, database_name, user_name, password):
     connection_kwargs = {
         'host': host,
-        'dbname': database_name,
         'username': user_name,
         'password': password if password is not None else '{password}'
     }

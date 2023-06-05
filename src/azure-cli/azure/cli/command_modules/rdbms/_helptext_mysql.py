@@ -13,7 +13,7 @@ short-summary: Manage Azure Database for MySQL Flexible Servers.
 """
 helps['mysql flexible-server import'] = """
 type: group
-short-summary: Manage Migrations from Azure Database for MySQL Single Servers to Flexible Servers.
+short-summary: Manage import workflows for MySQL Flexible Servers.
 """
 
 helps['mysql flexible-server import create'] = """
