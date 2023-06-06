@@ -148,6 +148,14 @@ def _mysql_import_mode_validator(mode):
         raise ArgumentUsageError('Incorrect value for --mode. Allowed values : {}'.format(allowed_values))
 
 
+def mysql_import_create_data_source_validator(cli_ctx, source_server_id, resource_group_name):
+    id_parts = parse_resource_id(source_server_id)
+    if id_parts['resource_group'] != resource_group_name:
+        raise CLIError('Migrations are only supported under the same resource group. ')
+    if id_parts['subscription'] != get_subscription_id(cli_ctx):
+        raise CLIError('Migrations are only supported under the same subscription. ')
+
+
 def mysql_retention_validator(backup_retention, sku_info, tier):
     if backup_retention is not None:
         backup_retention_range = get_mysql_backup_retention(sku_info, tier)
