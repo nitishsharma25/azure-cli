@@ -476,7 +476,7 @@ def flexible_server_import_create(cmd, client,
                 type='servers',
                 name=data_source)
         else:
-            raise ValueError('The provided data-source {} is invalid.'.format(data_source))
+            raise ClientRequestError('The provided data-source {} is invalid.'.format(data_source))
     else:
         source_server_id = data_source
 
@@ -566,26 +566,29 @@ def flexible_server_import_create(cmd, client,
 
     # Create mysql server
     # Note : passing public_access has no effect as the accepted values are 'Enabled' and 'Disabled'. So the value ends up being ignored.
-    server_result = _import_create_server(db_context, cmd, resource_group_name, server_name,
-                                          tags=tags,
-                                          location=location,
-                                          identity=identity,
-                                          sku=sku,
-                                          administrator_login=administrator_login,
-                                          administrator_login_password=administrator_login_password,
-                                          storage=storage,
-                                          backup=backup,
-                                          network=network,
-                                          version=version,
-                                          high_availability=high_availability,
-                                          availability_zone=zone,
-                                          data_encryption=data_encryption,
-                                          source_server_id=source_server_id)
+    try:
+        server_result = _import_create_server(db_context, cmd, resource_group_name, server_name,
+                                            tags=tags,
+                                            location=location,
+                                            identity=identity,
+                                            sku=sku,
+                                            administrator_login=administrator_login,
+                                            administrator_login_password=administrator_login_password,
+                                            storage=storage,
+                                            backup=backup,
+                                            network=network,
+                                            version=version,
+                                            high_availability=high_availability,
+                                            availability_zone=zone,
+                                            data_encryption=data_encryption,
+                                            source_server_id=source_server_id)
 
-    # Adding firewall rule
-    if start_ip != -1 and end_ip != -1:
-        firewall_name = create_firewall_rule(db_context, cmd, resource_group_name, server_name, start_ip, end_ip)
-
+        # Adding firewall rule
+        if start_ip != -1 and end_ip != -1:
+            firewall_name = create_firewall_rule(db_context, cmd, resource_group_name, server_name, start_ip, end_ip)
+    except Exception as e:
+        print(e)
+    
     user = server_result.administrator_login
     server_id = server_result.id
     loc = server_result.location
