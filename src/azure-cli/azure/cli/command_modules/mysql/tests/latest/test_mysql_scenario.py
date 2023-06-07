@@ -92,11 +92,15 @@ class FlexibleServerMgmtScenarioTest(ScenarioTest):
     def test_mysql_flexible_server_import_create(self, resource_group):
         self._test_mysql_flexible_server_import_create_mgmt('mysql', resource_group)
 
-    @AllowLargeResponse()
-    @ResourceGroupPreparer(location=DEFAULT_LOCATION)
-    def test_mysql_flexible_server_import_create_single_server_mgmt(self, resource_group):
-        self._test_mysql_flexible_server_import_create_single_server_mgmt('mysql', resource_group)
+    # @AllowLargeResponse()
+    # @ResourceGroupPreparer(location=DEFAULT_LOCATION)
+    # def test_mysql_flexible_server_import_create_single_server_mgmt(self, resource_group):
+    #     self._test_mysql_flexible_server_import_create_single_server_mgmt('mysql', resource_group)
     
+    # @AllowLargeResponse()
+    # @ResourceGroupPreparer(location=DEFAULT_LOCATION)
+    # def test_mysql_flexible_server_import_create_flexible_server_mgmt(self, resource_group):
+    #     self._test_mysql_flexible_server_import_create_flexible_server_mgmt('mysql', resource_group)
 
     # To run this test live, make sure that your role excludes the permission 'Microsoft.DBforMySQL/locations/checkNameAvailability/action'
     @ResourceGroupPreparer(location=DEFAULT_LOCATION)
@@ -223,13 +227,12 @@ class FlexibleServerMgmtScenarioTest(ScenarioTest):
     def _test_mysql_flexible_server_import_create_mgmt(self, database_engine, resource_group):
         # resource_group = 'nitishsharma-group'
         ss_server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)
-        ss_sku_name = 'B_Gen5_1'
+        location = 'westus2'
         # single server creation
-        self.cmd('{} server create -g {} -n {} --sku-name {}'.format(database_engine, resource_group, ss_server_name, ss_sku_name))
+        self.cmd('{} server create -g {} -n {} -l {}'.format(database_engine, resource_group, ss_server_name, location))
 
         storage_size = 32
         version = '5.7'
-        location = DEFAULT_LOCATION
         sku_name = 'Standard_B1ms'
         tier = 'Burstable'
         data_source_type = 'mysql_single'
@@ -255,13 +258,18 @@ class FlexibleServerMgmtScenarioTest(ScenarioTest):
         self.cmd('{} flexible-server delete -g {} -n {} --yes'.format(database_engine, resource_group, server_name), checks=NoneCheck())
         self.cmd('{} server delete -g {} -n {} --yes'.format(database_engine, resource_group, ss_server_name))
 
-    def _test_mysql_flexible_server_import_create_single_server_mgmt(self, database_engine, resource_group):
-        # resource_group = 'nitishsharma-group'
-        ss_server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)
-        ss_sku_name = 'B_Gen5_1'
-        # single server creation
-        self.cmd('{} server create -g {} -n {} --sku-name {}'.format(database_engine, resource_group, ss_server_name, ss_sku_name))
-        self.cmd('{} server delete -g {} -n {} --yes'.format(database_engine, resource_group, ss_server_name))
+    # def _test_mysql_flexible_server_import_create_single_server_mgmt(self, database_engine, resource_group):
+    #     # resource_group = 'nitishsharma-group'
+    #     ss_server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)
+    #     # single server creation
+    #     location = 'westus2'
+    #     self.cmd('{} server create -g {} -n {} -l {}'.format(database_engine, resource_group, ss_server_name, location))
+    #     self.cmd('{} server delete -g {} -n {} --yes'.format(database_engine, resource_group, ss_server_name))
+
+    # # def _test_mysql_flexible_server_import_create_flexible_server_mgmt(self, database_engine, resource_group):
+    # #     server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)
+    # #     self.cmd('{} flexible-server create -g {} --name {} --public-access None'.format(database_engine, resource_group, server_name))
+    # #     self.cmd('{} flexible-server delete -g {} --name {} --yes'.format(database_engine, resource_group, server_name))
 
     def _test_flexible_server_check_name_availability_fallback_mgmt(self, database_engine, resource_group):
         server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)

@@ -1,0 +1,748 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-azure-mgmt-resource/22.0.0 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: HEAD
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/clitest.rg000001?api-version=2022-09-01
+  response:
+    body:
+      string: ''
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '0'
+      date:
+      - Wed, 07 Jun 2023 11:10:20 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 204
+      message: No Content
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-azure-mgmt-resource/22.0.0 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: GET
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/clitest.rg000001?api-version=2022-09-01
+  response:
+    body:
+      string: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/clitest.rg000001","name":"clitest.rg000001","type":"Microsoft.Resources/resourceGroups","location":"eastus2euap","tags":{"product":"azurecli","cause":"automation","test":"test_mysql_flexible_server_import_create_single_server_mgmt","date":"2023-06-07T11:10:17Z","module":"mysql"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '401'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:10:21 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"name": "azuredbclitest-000002", "type": "Microsoft.DBforMySQL/servers"}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '73'
+      Content-Type:
+      - application/json
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: POST
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/checkNameAvailability?api-version=2017-12-01
+  response:
+    body:
+      string: '{"nameAvailable":true,"message":""}'
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '35'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:10:24 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+      x-ms-ratelimit-remaining-subscription-writes:
+      - '1199'
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"sku": {"name": "GP_Gen5_2"}, "properties": {"storageProfile": {"storageMB":
+      5120, "storageAutogrow": "Enabled"}, "createMode": "Default", "administratorLogin":
+      "rowdymole7", "administratorLoginPassword": "0hrlBgoWPslXI9jxbwOg1A"}, "location":
+      "westus2"}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '255'
+      Content-Type:
+      - application/json
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: PUT
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/clitest.rg000001/providers/Microsoft.DBforMySQL/servers/azuredbclitest-000002?api-version=2017-12-01
+  response:
+    body:
+      string: '{"operation":"UpsertElasticServer","startTime":"2023-06-07T11:10:28.43Z"}'
+    headers:
+      azure-asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/azureAsyncOperation/4b459683-4fd3-480d-9bea-9526e07db505?api-version=2017-12-01
+      cache-control:
+      - no-cache
+      content-length:
+      - '73'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:10:29 GMT
+      expires:
+      - '-1'
+      location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/operationResults/4b459683-4fd3-480d-9bea-9526e07db505?api-version=2017-12-01
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      x-content-type-options:
+      - nosniff
+      x-ms-ratelimit-remaining-subscription-writes:
+      - '1199'
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: GET
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/azureAsyncOperation/4b459683-4fd3-480d-9bea-9526e07db505?api-version=2017-12-01
+  response:
+    body:
+      string: '{"name":"4b459683-4fd3-480d-9bea-9526e07db505","status":"InProgress","startTime":"2023-06-07T11:10:28.43Z"}'
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '107'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:10:29 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: GET
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/azureAsyncOperation/4b459683-4fd3-480d-9bea-9526e07db505?api-version=2017-12-01
+  response:
+    body:
+      string: '{"name":"4b459683-4fd3-480d-9bea-9526e07db505","status":"InProgress","startTime":"2023-06-07T11:10:28.43Z"}'
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '107'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:11:30 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: GET
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/azureAsyncOperation/4b459683-4fd3-480d-9bea-9526e07db505?api-version=2017-12-01
+  response:
+    body:
+      string: '{"name":"4b459683-4fd3-480d-9bea-9526e07db505","status":"Succeeded","startTime":"2023-06-07T11:10:28.43Z"}'
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '106'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:12:31 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: GET
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/clitest.rg000001/providers/Microsoft.DBforMySQL/servers/azuredbclitest-000002?api-version=2017-12-01
+  response:
+    body:
+      string: '{"sku":{"name":"GP_Gen5_2","tier":"GeneralPurpose","family":"Gen5","capacity":2},"properties":{"administratorLogin":"rowdymole7","storageProfile":{"storageMB":5120,"backupRetentionDays":7,"geoRedundantBackup":"Disabled","storageAutogrow":"Enabled"},"version":"5.7","sslEnforcement":"Enabled","minimalTlsVersion":"TLSEnforcementDisabled","userVisibleState":"Ready","fullyQualifiedDomainName":"azuredbclitest-000002.mysql.database.azure.com","earliestRestoreDate":"2023-06-07T11:20:28.743+00:00","replicationRole":"None","masterServerId":"","replicaCapacity":5,"byokEnforcement":"Disabled","privateEndpointConnections":[],"infrastructureEncryption":"Disabled","publicNetworkAccess":"Enabled"},"location":"westus2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/clitest.rg000001/providers/Microsoft.DBforMySQL/servers/azuredbclitest-000002","name":"azuredbclitest-000002","type":"Microsoft.DBforMySQL/servers"}'
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '933'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:12:32 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: GET
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/clitest.rg000001/providers/Microsoft.DBforMySQL/servers/azuredbclitest-000002/databases/defaultdb?api-version=2017-12-01
+  response:
+    body:
+      string: '{"error":{"code":"ResourceNotFound","message":"The requested resource
+        of type ''Microsoft.DBforMySQL/servers/databases'' with name ''defaultdb''
+        was not found."}}'
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '158'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:12:35 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: '{"properties": {"charset": "utf8"}}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '35'
+      Content-Type:
+      - application/json
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: PUT
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/clitest.rg000001/providers/Microsoft.DBforMySQL/servers/azuredbclitest-000002/databases/defaultdb?api-version=2017-12-01
+  response:
+    body:
+      string: '{"operation":"UpsertElasticServerDatabase","startTime":"2023-06-07T11:12:36.44Z"}'
+    headers:
+      azure-asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/azureAsyncOperation/97eb961d-c144-41f5-9f4e-c912fd898d56?api-version=2017-12-01
+      cache-control:
+      - no-cache
+      content-length:
+      - '81'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:12:36 GMT
+      expires:
+      - '-1'
+      location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/operationResults/97eb961d-c144-41f5-9f4e-c912fd898d56?api-version=2017-12-01
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      x-content-type-options:
+      - nosniff
+      x-ms-ratelimit-remaining-subscription-writes:
+      - '1199'
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: GET
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/azureAsyncOperation/97eb961d-c144-41f5-9f4e-c912fd898d56?api-version=2017-12-01
+  response:
+    body:
+      string: '{"name":"97eb961d-c144-41f5-9f4e-c912fd898d56","status":"InProgress","startTime":"2023-06-07T11:12:36.44Z"}'
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '107'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:12:36 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server delete
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '0'
+      ParameterSetName:
+      - -g -n --yes
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: DELETE
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/clitest.rg000001/providers/Microsoft.DBforMySQL/servers/azuredbclitest-000002?api-version=2017-12-01
+  response:
+    body:
+      string: '{"operation":"DropElasticServer","startTime":"2023-06-07T11:12:38.367Z"}'
+    headers:
+      azure-asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/azureAsyncOperation/c7f79577-4437-46df-9550-4c35484eb629?api-version=2017-12-01
+      cache-control:
+      - no-cache
+      content-length:
+      - '72'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:12:37 GMT
+      expires:
+      - '-1'
+      location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/operationResults/c7f79577-4437-46df-9550-4c35484eb629?api-version=2017-12-01
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      x-content-type-options:
+      - nosniff
+      x-ms-ratelimit-remaining-subscription-deletes:
+      - '14999'
+    status:
+      code: 202
+      message: Accepted
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server delete
+      Connection:
+      - keep-alive
+      ParameterSetName:
+      - -g -n --yes
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: GET
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/azureAsyncOperation/c7f79577-4437-46df-9550-4c35484eb629?api-version=2017-12-01
+  response:
+    body:
+      string: '{"name":"c7f79577-4437-46df-9550-4c35484eb629","status":"InProgress","startTime":"2023-06-07T11:12:38.367Z"}'
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '108'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:12:38 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: GET
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/azureAsyncOperation/97eb961d-c144-41f5-9f4e-c912fd898d56?api-version=2017-12-01
+  response:
+    body:
+      string: '{"name":"97eb961d-c144-41f5-9f4e-c912fd898d56","status":"Succeeded","startTime":"2023-06-07T11:12:36.44Z"}'
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '106'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:12:51 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server create
+      Connection:
+      - keep-alive
+      ParameterSetName:
+      - -g -n -l
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: GET
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/clitest.rg000001/providers/Microsoft.DBforMySQL/servers/azuredbclitest-000002/databases/defaultdb?api-version=2017-12-01
+  response:
+    body:
+      string: '{"error":{"code":"SubscriptionDoesNotHaveServer","message":"Subscription
+        ''2941a09d-7bcf-42fe-91ca-1765f521c829'' does not have the server ''azuredbclitest-000002''.
+        Please make sure that the subscription and server name are entered correctly.
+        Please contact Microsoft support if further assistance is needed."}}'
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '308'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:12:52 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 404
+      message: Not Found
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      CommandName:
+      - mysql server delete
+      Connection:
+      - keep-alive
+      ParameterSetName:
+      - -g -n --yes
+      User-Agent:
+      - AZURECLI/2.49.0 azsdk-python-mgmt-rdbms/10.2.0b8 Python/3.8.10 (Windows-10-10.0.22621-SP0)
+    method: GET
+    uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforMySQL/locations/westus2/azureAsyncOperation/c7f79577-4437-46df-9550-4c35484eb629?api-version=2017-12-01
+  response:
+    body:
+      string: '{"name":"c7f79577-4437-46df-9550-4c35484eb629","status":"Succeeded","startTime":"2023-06-07T11:12:38.367Z"}'
+    headers:
+      cache-control:
+      - no-cache
+      content-length:
+      - '107'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Wed, 07 Jun 2023 11:12:53 GMT
+      expires:
+      - '-1'
+      pragma:
+      - no-cache
+      server:
+      - Microsoft-HTTPAPI/2.0
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains
+      transfer-encoding:
+      - chunked
+      vary:
+      - Accept-Encoding
+      x-content-type-options:
+      - nosniff
+    status:
+      code: 200
+      message: OK
+version: 1
