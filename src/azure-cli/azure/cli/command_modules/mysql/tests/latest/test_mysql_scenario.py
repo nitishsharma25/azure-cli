@@ -218,12 +218,12 @@ class FlexibleServerMgmtScenarioTest(ScenarioTest):
         # creation of single server which will be used for import
         ss_server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)
         location = 'westus2'
-
-        self.cmd('{} server create -g {} -n {} -l {}'.format(database_engine, resource_group, ss_server_name, location))
+        ss_storage_size = 51200
+        self.cmd('{} server create -g {} -n {} -l {} --storage-size {}'.format(database_engine, resource_group, ss_server_name, location, ss_storage_size))
 
         # flexible server details
-        storage_size = 32
-        version = '5.7'
+        storage_size = 128
+        version = '5.7' 
         sku_name = 'Standard_B1ms'
         tier = 'Burstable'
         server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)
@@ -246,6 +246,15 @@ class FlexibleServerMgmtScenarioTest(ScenarioTest):
         self.assertEqual(basic_info['version'], version)
         self.assertEqual(basic_info['storage']['storageSizeGb'], storage_size)
 
+        self.cmd('{} flexible-server delete -g {} -n {} --yes'.format(database_engine, resource_group, server_name), checks=NoneCheck())
+
+        storage_size = 64
+        self.cmd('{} flexible-server import create -g {} -n {} --sku-name {} --tier {} \
+                  --storage-size {} -u {} --version {} --tags keys=3 \
+                  --public-access None --location {} --data-source-type {} --data-source {} --mode {}'.format(database_engine,
+                                                                                                              resource_group, server_name, sku_name, tier, storage_size,
+                                                                                                              'dbadmin', version, location, data_source_type, data_source, mode),
+                                                                                                              expect_failure=True)
         self.cmd('{} flexible-server delete -g {} -n {} --yes'.format(database_engine, resource_group, server_name), checks=NoneCheck())
         self.cmd('{} server delete -g {} -n {} --yes'.format(database_engine, resource_group, ss_server_name), checks=NoneCheck())
 
@@ -1057,6 +1066,11 @@ class FlexibleServerValidatorScenarioTest(ScenarioTest):
     def test_mysql_flexible_server_mgmt_update_validator(self, resource_group):
         self._test_mgmt_update_validator('mysql', resource_group)
 
+    @AllowLargeResponse()
+    @ResourceGroupPreparer(location=DEFAULT_LOCATION)
+    def test_mysql_flexible_server_mgmt_import_validator(self, resource_group):
+        self._test_mgmt_import_validator('mysql', resource_group)
+
     def _test_mgmt_create_validator(self, database_engine, resource_group):
 
         RANDOM_VARIABLE_MAX_LENGTH = 30
@@ -1177,6 +1191,27 @@ class FlexibleServerValidatorScenarioTest(ScenarioTest):
         self.cmd('{} flexible-server delete -g {} -n {} --yes'.format(
                  database_engine, resource_group, server_name), checks=NoneCheck())
 
+    def _test_mgmt_import_validator(self, database_engine, resource_group):
+        RANDOM_VARIABLE_MAX_LENGTH = 20
+        ss_server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)
+        flex_server_name = self.create_random_name(SERVER_NAME_PREFIX, SERVER_NAME_MAX_LENGTH)
+        invalid_single_server_resource_id = '/subscriptions/{}/resourceGroups/{}/providers/Microsoft.DBforMySQL/servers/{}'.format(
+            self.get_subscription_id(), resource_group, ss_server_name
+        )
+        invalid_resource_group_name = self.create_random_name('rg', RANDOM_VARIABLE_MAX_LENGTH)
+
+        self.cmd('{} flexible-server import create --data-source-type {} --data-source {} -g {} -n {}'.format(
+                 database_engine, 'mysql_single', ss_server_name, resource_group, flex_server_name),
+                 expect_failure=True)
+        
+        self.cmd('{} flexible-server import create --data-source-type {} --data-source {} -g {} -n {}'.format(
+                 database_engine, 'mysql_single', invalid_single_server_resource_id, resource_group, flex_server_name),
+                 expect_failure=True)
+        
+        self.cmd('{} flexible-server import create --data-source-type {} --data-source {} -g {} -n {}'.format(
+                 database_engine, 'mysql_single', invalid_single_server_resource_id, invalid_resource_group_name, flex_server_name),
+                 expect_failure=True)
+        
 class FlexibleServerReplicationMgmtScenarioTest(ScenarioTest):  # pylint: disable=too-few-public-methods
 
     @AllowLargeResponse()
