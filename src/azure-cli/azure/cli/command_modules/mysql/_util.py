@@ -550,6 +550,10 @@ def get_tenant_id():
     return sub['tenantId']
 
 
+def parse_firewall_rules(firewall_rules):
+    return list(firewall_rules) if isinstance(firewall_rules, ItemPaged) else firewall_rules
+
+
 def get_single_to_flex_sku_mapping(source_single_server_sku, tier, sku_name):
     single_to_flex_sku_mapping = {"Basic": {1: "Standard_B1ms", 2: "Standard_B2ms"},
                                   "GeneralPurpose": {2: "Standard_D2ds_v4", 4: "Standard_D4ds_v4", 8: "Standard_D8ds_v4", 16: "Standard_D16ds_v4", 32: "Standard_D32ds_v4", 64: "Standard_D64ds_v4"},
