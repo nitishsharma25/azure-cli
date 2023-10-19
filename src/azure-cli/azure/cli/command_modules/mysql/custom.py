@@ -29,7 +29,7 @@ from ._util import resolve_poller, generate_missing_parameters, get_mysql_list_s
     run_subprocess_get_output, fill_action_template, get_git_root_dir, get_single_to_flex_sku_mapping, get_firewall_rules_from_paged_response, GITHUB_ACTION_PATH
 from ._network import prepare_mysql_exist_private_dns_zone, prepare_mysql_exist_private_network, prepare_private_network, prepare_private_dns_zone, prepare_public_network
 from ._validators import mysql_arguments_validator, mysql_auto_grow_validator, mysql_georedundant_backup_validator, mysql_restore_tier_validator, \
-    mysql_retention_validator, mysql_sku_name_validator, mysql_storage_validator, validate_mysql_replica, validate_server_name, \
+    mysql_retention_validator, mysql_sku_name_validator, mysql_storage_validator, validate_mysql_replica, validate_server_name, firewall_rule_name_validator, \
     validate_mysql_tier_update, validate_and_format_restore_point_in_time, validate_public_access_server, mysql_import_single_server_ready_validator, \
     mysql_import_version_validator, mysql_import_storage_validator
 
@@ -391,7 +391,7 @@ def flexible_server_create(cmd, client,
     backup = mysql_flexibleservers.models.Backup(backup_retention_days=backup_retention,
                                                  geo_redundant_backup=geo_redundant_backup)
 
-    sku = mysql_flexibleservers.models.Sku(name=sku_name, tier=tier)
+    sku = mysql_flexibleservers.models.MySQLServerSku(name=sku_name, tier=tier)
 
     high_availability = mysql_flexibleservers.models.HighAvailability(mode=high_availability,
                                                                       standby_availability_zone=standby_availability_zone)
@@ -570,7 +570,7 @@ def flexible_server_import_create(cmd, client,
     backup = mysql_flexibleservers.models.Backup(backup_retention_days=backup_retention,
                                                  geo_redundant_backup=geo_redundant_backup)
 
-    sku = mysql_flexibleservers.models.Sku(name=sku_name, tier=tier)
+    sku = mysql_flexibleservers.models.MySQLServerSku(name=sku_name, tier=tier)
 
     high_availability = mysql_flexibleservers.models.HighAvailability(mode=high_availability,
                                                                       standby_availability_zone=standby_availability_zone)
@@ -711,7 +711,7 @@ def flexible_server_restore(cmd, client, resource_group_name, server_name, sourc
         backup = mysql_flexibleservers.models.Backup(backup_retention_days=backup_retention,
                                                      geo_redundant_backup=geo_redundant_backup)
 
-        sku = mysql_flexibleservers.models.Sku(name=sku_name, tier=tier)
+        sku = mysql_flexibleservers.models.MySQLServerSku(name=sku_name, tier=tier)
 
         parameters = mysql_flexibleservers.models.Server(
             tags=tags,
@@ -841,7 +841,7 @@ def flexible_server_georestore(cmd, client, resource_group_name, server_name, so
         backup = mysql_flexibleservers.models.Backup(backup_retention_days=backup_retention,
                                                      geo_redundant_backup=geo_redundant_backup)
 
-        sku = mysql_flexibleservers.models.Sku(name=sku_name, tier=tier)
+        sku = mysql_flexibleservers.models.MySQLServerSku(name=sku_name, tier=tier)
 
         parameters = mysql_flexibleservers.models.Server(
             tags=tags,
@@ -1229,7 +1229,7 @@ def flexible_replica_create(cmd, client, resource_group_name, source_server, rep
     identity, data_encryption = get_identity_and_data_encryption(source_server_object)
 
     parameters = mysql_flexibleservers.models.Server(
-        sku=mysql_flexibleservers.models.Sku(name=sku_name, tier=tier),
+        sku=mysql_flexibleservers.models.MySQLServerSku(name=sku_name, tier=tier),
         source_server_resource_id=source_server_id,
         location=location,
         tags=tags,
@@ -1800,6 +1800,11 @@ def migrate_firewall_rules_from_single_to_flex(db_context, cmd, source_server_id
     firewall_client = cf_mysql_firewall_rules(cmd.cli_ctx, _=None)
     firewall_rules = get_firewall_rules_from_paged_response(firewall_client.list_by_server(id_parts['resource_group'], id_parts['name']))
     for rule in firewall_rules:
+        if not re.search(r'^[a-zA-Z0-9][-_a-zA-Z0-9]{0,79}(?<!-)$', rule.name):
+            logger.warning("The firewall rule name {0} can only contain 0-9, a-z, A-Z, \'-\' and \'_\'. "
+                                  "Additionally, the name of the firewall rule must be at least 2 characters "
+                                  "and no more than 80 characters in length. ".format(rule.name))
+            continue
         create_firewall_rule(db_context=db_context,
                              cmd=cmd,
                              resource_group_name=id_parts['resource_group'],
